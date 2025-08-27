@@ -1,7 +1,7 @@
 pipeline {
     agent any
     stages {
-        stage('Dependencies installation') {
+        stage('Instalar dependencias') {
             agent {
                 docker {
                     image 'node:22'
@@ -10,17 +10,17 @@ pipeline {
                 }
             }
             stages {
-                stage('Install commands') {
+                stage('Instalación') {
                     steps {
                         sh 'npm install'
                     }
                 }
-                stage('Testing app') {
+                stage('Testing') {
                     steps {
                         sh 'npm run test:cov'
                     }
                 }
-                stage('Building') {
+                stage('Build') {
                     steps {
                         sh 'npm run build'
                     }
@@ -36,7 +36,7 @@ pipeline {
                 }
             }
             stages{
-                stage('Uploading code to sonarqube'){
+                stage('Subiendo código a SonarQube'){
                     steps{
                         withSonarQubeEnv('SonarQube'){
                             sh 'sonar-scanner'
@@ -58,7 +58,7 @@ pipeline {
                 }
             }
         }
-        stage('Image building and delivery stage'){
+        stage('Construcción de imagen y delivery'){
             steps{
                 script {
                     docker.withRegistry('http://localhost:8082', 'nexus-credentials') {
