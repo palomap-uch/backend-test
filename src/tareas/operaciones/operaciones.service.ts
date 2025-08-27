@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class OperacionesService {
-  operar(operacion: string = '', a: number, b: number) {
+  operar(a: number, b: number, operacion: string = '') {
     if (operacion === 'suma') {
       return this.#suma(a, b);
     } else if (operacion === 'resta') {
@@ -11,7 +11,11 @@ export class OperacionesService {
       return this.#multiplicacion(a, b);
     } else if (operacion === 'division') {
       return this.#division(a, b);
+    }else{
+      //throw an error if op does not exist
+      throw new Error('operación indefinida')
     }
+
   }
 
   #suma(a: number, b: number) {
