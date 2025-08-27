@@ -67,19 +67,30 @@ pipeline {
                         sh 'docker push localhost:8082/backend-test:latest'
                     }
 
-                    docker.withRegistry('http://localhost:8082', 'nexus-credentials') {
-                        sh "docker tag backend-test localhost:8082/backend-test:${env.BUILD_NUMBER}"
-                        sh "docker push localhost:8082/backend-test:${env.BUILD_NUMBER}"
-                    }
+                    //docker.withRegistry('http://localhost:8082', 'nexus-credentials') {
+                    //    sh "docker tag backend-test localhost:8082/backend-test:${env.BUILD_NUMBER}"
+                    //    sh "docker push localhost:8082/backend-test:${env.BUILD_NUMBER}"
+                    //}
                 }
 
                     
             }
         }
-        //stage('Building'){
-        //    steps {
-        //        echo 'Another building...'
-        //    }
-        //}
+        stage('Despliegue continuo') {
+            when {
+                branch 'main'
+            }
+            agent{
+                docker{
+                    image 'alpine/k8s:1.32.2'
+                    reuseNode true
+                }
+            }
+            steps {
+                withKubeConfig([credentialsId: 'kubeconfig-docker']){
+                     sh "kubectl -n devops set image deployments backend-test backend-test=localhost:8082/backend-node-devops:${BUILD_NUMBER}"
+                }
+            }
+        }
     }
 }
