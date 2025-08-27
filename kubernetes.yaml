@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: backend-test
+  namespace: devops
+  labels:
+    app: backend-test
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend-test
+  template:
+    metadata:
+      labels:
+        app: backend-test
+    spec:
+      container:
+        - name: backend-test
+          image: localhost:8082/backend-test
+          imagePullPolicy: Always
+          env:
+            - name: NODE_ENV
+              value: development
+            - name: PORT
+              value: "3000"
+      imagePullSecrets:
+        - name: docker-registry-secret

@@ -64,7 +64,7 @@ pipeline {
                     docker.withRegistry('http://localhost:8082', 'nexus-credentials') {
                         sh 'docker build -t backend-test .'
                         sh 'docker tag backend-test localhost:8082/backend-test:latest'
-                        sh 'docker push http://localhost:8082/backend-test:latest'
+                        sh 'docker push localhost:8082/backend-test:latest'
                     }
 
                     docker.withRegistry('http://localhost:8082', 'nexus-credentials') {
