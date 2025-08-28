@@ -25,30 +25,16 @@ spec:
         image: localhost:8082/backend-test:latest
         imagePullPolicy: Always
         env:
-        - name: NODE_ENV_SECUNDARIA
-          value: development
-        - name: PORT_SECUNDARIO
-          value: "3000"
-        - name: PORT
+        - name: USERNAME
           valueFrom:
             configMapKeyRef:
               name: cm-backend-test
-              key: PORT
-        - name: NODE_ENV
-          valueFrom:
-            configMapKeyRef:
-              name: cm-backend-test
-              key: NODE_ENV
-        - name: BBDD_URL
-          valueFrom:
-            configMapKeyRef:
-              name: cm-backend-test
-              key: BBDD_URL
-        - name: PASSWORD
+              key: USERNAME
+        - name: API_KEY
           valueFrom:
             secretKeyRef:
               name: sc-backend-test
-              key: PASSWORD
+              key: API_KEY
       imagePullSecrets:
       - name: docker-registry-secret
 ---

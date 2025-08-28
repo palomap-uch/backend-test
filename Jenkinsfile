@@ -67,10 +67,10 @@ pipeline {
                         sh 'docker push localhost:8082/backend-test:latest'
                     }
 
-                    //docker.withRegistry('http://localhost:8082', 'nexus-credentials') {
-                    //    sh "docker tag backend-test localhost:8082/backend-test:${env.BUILD_NUMBER}"
-                    //    sh "docker push localhost:8082/backend-test:${env.BUILD_NUMBER}"
-                    //}
+                    docker.withRegistry('http://localhost:8082', 'nexus-credentials') {
+                        sh "docker tag backend-test localhost:8082/backend-test:${BUILD_NUMBER}"
+                        sh "docker push localhost:8082/backend-test:${BUILD_NUMBER}"
+                    }
                 }
 
                     
@@ -87,8 +87,8 @@ pipeline {
                 }
             }
             steps {
-                withKubeConfig([credentialsId: 'kubeconfig-docker']){
-                     sh "kubectl -n devops set image deployments backend-test backend-test=localhost:8082/backend-test:${env.BUILD_NUMBER}"
+                withKubeConfig([credentialsId: 'kubeconfig-docker', serverUrl: 'http://localhost:8082']){
+                     sh "kubectl -n devops set image deployments backend-test backend-test=localhost:8082/backend-test:latest"
                 }
             }
         }*/
