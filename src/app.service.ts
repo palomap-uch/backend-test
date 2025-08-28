@@ -11,7 +11,7 @@ export class AppService {
   ) {}
 
   getHello(): string {
-    return `Hello world`;
+    return `Hello ${this.config.username}!!`;
   }
 
   getApikey(): string {

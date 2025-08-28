@@ -113,6 +113,24 @@ describe('AppController (e2e)', () => {
       
   });
 
+  it('/operaciones (GET) resta con entradas indefinidas o nulas', () => {
+    return request(app.getHttpServer())
+      .get('/operaciones')
+      .query({ operacion: 'resta', a: undefined, b: null })
+      .expect('Content-type', /application\/json/)
+      .expect(502)
+      .expect({ resultado: null, mensaje: 'operación no pudo ser calculada' }); // NaN to null due to serialization
+  });
+
+  it('/operaciones (GET) multiplicación con valores no numéricos', () => {
+    return request(app.getHttpServer())
+      .get('/operaciones')
+      .query({ operacion: 'multiplicacion', a: "30", b: "abc" })
+      .expect('Content-type', /application\/json/)
+      .expect(502)
+      .expect({ resultado: null, mensaje: 'operación no pudo ser calculada' }); // NaN to null due to serialization
+  });
+
 });
 
 

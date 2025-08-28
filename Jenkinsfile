@@ -76,7 +76,7 @@ pipeline {
                     
             }
         }
-        stage('Despliegue continuo') {
+        /*stage('Despliegue continuo') {
             when {
                 branch 'main'
             }
@@ -88,9 +88,9 @@ pipeline {
             }
             steps {
                 withKubeConfig([credentialsId: 'kubeconfig-docker']){
-                     sh "kubectl -n devops set image deployments backend-test backend-test=localhost:8082/backend-node-devops:${BUILD_NUMBER}"
+                     sh "kubectl -n devops set image deployments backend-test backend-test=localhost:8082/backend-test:${env.BUILD_NUMBER}"
                 }
             }
-        }
+        }*/
     }
 }

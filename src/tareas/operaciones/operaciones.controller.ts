@@ -14,6 +14,7 @@ export class OperacionesController {
     @Query('b') b: number,
   ) {
     try {
+
       const calculo = this.operService.operar(+a, +b, operacion);
 
       if (!Number.isNaN(calculo) && calculo !== undefined) {
@@ -25,6 +26,7 @@ export class OperacionesController {
       return res
         .status(502)
         .json({ resultado: NaN, mensaje: 'operación no pudo ser calculada' });
+
     } catch (error){
       return res
         .status(422)
