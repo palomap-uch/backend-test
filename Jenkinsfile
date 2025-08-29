@@ -88,9 +88,6 @@ pipeline {
             }
             steps {
                 withKubeConfig([credentialsId: 'kubeconfig-docker']){
-                    sh "kubectl create configmap cm-backend-test -n devops --from-literal=USERNAME=paloma.perez"
-                    sh "kubectl create secret generic sc-backend-test -n devops  --from-literal=API_KEY=abc123#"
-                    sh "kubectl create secret -n devops docker-registry docker-registry-secret --docker-server http://localhost:8082 --docker-username admin --docker-password admin123. --docker-email paloma.perez@uchile.cl"
                     sh "kubectl -n devops set image deployments backend-test backend-test=localhost:8082/backend-test:latest"
                 }
             }
